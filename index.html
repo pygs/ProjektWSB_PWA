@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt WSB</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#a55e18">
+</head>
+<body>
+    <header>
+        <h1>Projekt WSB</h1>
+    </header>
+    <main>
+        <div class="dogAPI">
+            <h1>Dog API</h1>
+            <button class="dog">Zobacz zdjęcie psa</button><br>
+            <img class="dog" src="" onerror="this.onerror=null;" alt="Click the button!">
+        </div>
+        <div class="weatherApi">
+            <h1>Weather API</h1>
+            <div class="app-top">
+                <h3 class="city"></h3>
+                <input type="text" placeholder="podaj nazwę miasta">
+                <button class="weat">Sprawdź pogodę</button>
+                <p class="error"></p>
+                <img class="weat" src="" alt="">
+            </div>
+            <div class="app-bottom">
+                <p>Pogoda: <span class="weather"></span></p>
+                <p>Temperatura: <span class="temp"></span></p>
+                <p>Temperatura odczuwalna: <span class="feels-like"></span></p>
+                <p>Wilgotność: <span class="humidity"></span></p>
+                <p>Ciśnienie: <span class="pressure"></span>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>WSB 2022 - Zaawansawone technologie internetowe</p>
+    </footer>
+    <script src="sw.js"></script>
+    <script>
+            const dogbutton = document.querySelector('button.dog');
+            const dogimg = document.querySelector('img.dog');
+
+            const URL = 'https://dog.ceo/api/breeds/image/random'
+            dogbutton.addEventListener('click', () => {
+                fetch(URL)
+                .then(response => response.json())
+                .then(data => dogimg.setAttribute('src', data.message))
+                .catch(error => console.log(error))
+            })
+
+            const input = document.querySelector('input');
+            const weatherbutton = document.querySelector('button.weat');
+            const city = document.querySelector('.city');
+            const error = document.querySelector('.error');
+            const weatherimg = document.querySelector('img.weat');
+            const weather = document.querySelector('.weather');
+            const temperature = document.querySelector('.temp');
+            const feelsLike = document.querySelector('.feels-like');
+            const humidity = document.querySelector('.humidity');
+            const pressure = document.querySelector('.pressure');
+
+            const LINK ='https://api.openweathermap.org/data/2.5/weather?q=';
+            const KEY = '&appid=7dc1e3959907f252891451585f715299';
+            const UNITS = '&units=metric';
+
+            const checkWeather = () => {
+                const cityInput = input.value || 'Gdańsk'
+                const URL = LINK + cityInput + KEY + UNITS
+                
+                axios.get(URL).then(response => {
+                    console.log(response.data)
+
+                    const temp = response.data.main.temp 
+                    const feels_like = response.data.main.feels_like
+                    const hum = response.data.main.humidity
+                    const press = response.data.main.pressure
+                    const weatherStatus = response.data.weather[0]
+
+                    city.textContent = `${response.data.name}, ${response.data.sys.country}`
+
+                    temperature.textContent = Math.floor(temp) + '°C'
+                    feelsLike.textContent = Math.floor(feels_like) + '°C'
+                    humidity.textContent = hum + '%'
+                    pressure.textContent = press + 'hPA'
+                    weather.textContent = weatherStatus.main
+                    weatherimg.setAttribute('src', `./img/${weatherStatus.icon}.png`)
+
+                    input.value = ''
+                })
+            }
+
+            // checkWeather()
+            weatherbutton.addEventListener('click', checkWeather)
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

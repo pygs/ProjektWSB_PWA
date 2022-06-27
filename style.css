@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+header{
+    height: 100vh;
+    background-image: url('https://iaphare.org/wp-content/uploads/2018/11/Project-BG-2005.jpg');
+    background-position: 43% center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    background-color: #ffffff54;
+    padding: 30px 20px;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dogAPI{
+    padding: 20px;
+}
+
+.dogAPI img{
+    width: auto;
+    height: 250px;
+    margin: 10px auto;
+}
+
+.weatherAPI{
+    padding: 20px;
+}
+
+footer {
+    padding: 28px;
+    background-color: rgb(192, 153, 47);
+    margin-top: 20px;
+}
+
+footer p {
+    text-align: center;
+    line-height: 1.5;
+}
+
+@media screen and (min-width: 768px){
+    main {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .dogAPI{
+        width: 50%;
+    }
+    .weatherAPI{
+        width: 50%;
+    }
+}
